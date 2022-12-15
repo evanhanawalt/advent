@@ -22,7 +22,7 @@ fn part1() {
     for line in lines.iter() {
         score += score_map.get(line).unwrap();
     }
-    println!("Part 1: {}", score);
+    println!("Part 1: {score}");
 }
 
 fn part2() {
@@ -42,7 +42,7 @@ fn part2() {
     for line in lines.iter() {
         score += score_map.get(line).unwrap();
     }
-    println!("Part 2: {}", score);
+    println!("Part 2: {score}");
 }
 fn main() {
     part1();

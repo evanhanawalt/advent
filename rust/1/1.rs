@@ -20,7 +20,7 @@ fn part1() {
     // Read input and create the inventories
     let inventories = get_inv();
     let res: u32 = inventories.iter().map(|v| v.iter().sum()).max().unwrap();
-    println!("Part1: {}", res);
+    println!("Part1: {res}");
 }
 
 fn part2() {
@@ -29,7 +29,7 @@ fn part2() {
     sums.sort();
     sums.reverse();
     let res: u32 = sums.iter().take(3).sum();
-    println!("Part2: {}" ,res);
+    println!("Part2: {res}");
 }
 
 

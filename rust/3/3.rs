@@ -27,7 +27,7 @@ fn part1() {
             }
         }
     }
-    println!("Part1: {}", result);
+    println!("Part1: {result}");
 }
 
 fn part2() {
@@ -48,7 +48,7 @@ fn part2() {
             current_set.push(line);
         }
     }
-    println!("Part2: {}", result);
+    println!("Part2: {result}");
 }
 
 fn main() {
