@@ -1,5 +1,5 @@
+//// This one is very ugly
 const fs = require("fs");
-const { default: test } = require("node:test");
 let inputs = fs.readFileSync("input.txt", "utf8").split("");
 const getInitialRock = (index, highestRock) => {
   const rockType = index % 5;
@@ -43,7 +43,7 @@ const getInitialRock = (index, highestRock) => {
     ];
   }
 };
-
+// finds the longest pattern in an array of string
 const findLongestPattern = (arr) => {
   let longestPattern = [];
   let maxL = Math.floor(arr.length / 2);
@@ -81,6 +81,10 @@ const coordinateIsBlocked = ({ x, y }) => {
   return blockedCoordinates.includes(coordKey(x, y));
 };
 
+// uniquely identifies the state of:
+//    current rock
+//    rocks that it will fall on
+//    the horizontal < or > inputs that will influence it
 const makePatternKey = (arr, rockType, currentInput, currHeight) => {
   const normalized = arr.map((str) => {
     let split = str.split(",");
@@ -93,7 +97,7 @@ let highestRock = -1;
 let inputIndex = 0;
 // drop rocks
 let patternChecker = [];
-let lastBlocked = null;
+
 for (let r = 0; r < 1000000000000; r++) {
   let currentRock = getInitialRock(r, highestRock);
   const rockType = r % 5;
@@ -105,7 +109,7 @@ for (let r = 0; r < 1000000000000; r++) {
   );
   // if we've seen this pattern, skip the calculation
   if (patternMap.has(pKey)) {
-    // set up data to look for a pattern, skip through patter at 6001
+    //set up data to look for a larger pattern, skip through as many as possible at r=6001
     if (r > 2000 && r < 6000) {
       patternChecker.push(pKey);
     } else if (r === 6001) {
@@ -114,7 +118,7 @@ for (let r = 0; r < 1000000000000; r++) {
       let numTimesToSimulate = Math.floor(
         (1000000000000 - r) / actualPattern.length
       );
-      // when simulating the pattern, rock and inputIndex should remain the same
+      // when simulating the pattern, rock and inputIndex should remain the same after a complete cycle
       let patternHeightDelta = actualPattern
         .map((key) => {
           return patternMap.get(key).heightDelta;
