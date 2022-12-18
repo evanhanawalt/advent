@@ -43,6 +43,30 @@ const getInitialRock = (index, highestRock) => {
     ];
   }
 };
+
+const findLongestPattern = (arr) => {
+  let longestPattern = [];
+  let maxL = Math.floor(arr.length / 2);
+  while (maxL > 1) {
+    for (let i = 0; i + maxL < arr.length; i++) {
+      let pattern = [];
+      for (let j = 0; j < maxL; j++) {
+        if (arr[i + j] === arr[i + j + maxL]) {
+          pattern.push(arr[i + j]);
+        } else {
+          break;
+        }
+      }
+      if (pattern.length === maxL) {
+        return pattern;
+      }
+    }
+    maxL--;
+  }
+
+  return longestPattern;
+};
+
 let blockedCoordinates = [];
 const patternMap = new Map();
 const coordKey = (x, y) => `${x},${y}`;
@@ -68,14 +92,11 @@ const makePatternKey = (arr, rockType, currentInput, currHeight) => {
 let highestRock = -1;
 let inputIndex = 0;
 // drop rocks
-let patternStart = "";
-
+let patternChecker = [];
+let lastBlocked = null;
 for (let r = 0; r < 1000000000000; r++) {
   let currentRock = getInitialRock(r, highestRock);
   const rockType = r % 5;
-  if (rockType === 0 && inputIndex === 0) {
-    console.log(`R:${r}, i:${inputIndex}`);
-  }
   const pKey = makePatternKey(
     blockedCoordinates,
     rockType,
@@ -84,20 +105,36 @@ for (let r = 0; r < 1000000000000; r++) {
   );
   // if we've seen this pattern, skip the calculation
   if (patternMap.has(pKey)) {
-    const { heightDelta, blockThese, endIndex } = patternMap.get(pKey);
-    blockThese
-      .map((node) => {
-        return { x: node.x, y: node.y + highestRock };
-      })
-      .forEach((node) => {
-        setBlockedCoord(node);
-      });
-    blockedCoordinates = blockedCoordinates.filter((val) => {
-      return highestRock - parseInt(val.split(",")[1]) < 69;
-    });
+    // set up data to look for a pattern, skip through patter at 6001
+    if (r > 2000 && r < 6000) {
+      patternChecker.push(pKey);
+    } else if (r === 6001) {
+      // we have data, find the biggest pattern in there
+      const actualPattern = findLongestPattern(patternChecker);
+      let numTimesToSimulate = Math.floor(
+        (1000000000000 - r) / actualPattern.length
+      );
+      // when simulating the pattern, rock and inputIndex should remain the same
+      let patternHeightDelta = actualPattern
+        .map((key) => {
+          return patternMap.get(key).heightDelta;
+        })
+        .reduce((accum, value) => accum + value, 0);
+
+      let totalHeightAdded = numTimesToSimulate * patternHeightDelta;
+      let totalRocksDropped = numTimesToSimulate * actualPattern.length;
+      r += totalRocksDropped;
+      highestRock += totalHeightAdded;
+    }
+    const { heightDelta, blocked, endIndex } = patternMap.get(pKey);
     inputIndex = endIndex;
     highestRock += heightDelta;
+    lastBlocked = blocked;
+    blockedCoordinates = blocked.map((node) => {
+      return `${node.x},${node.y + highestRock}`;
+    });
   } else {
+    // we haven't seen this exact input, so do the simulation for it
     while (true) {
       // do horizontal push
 
@@ -136,25 +173,40 @@ for (let r = 0; r < 1000000000000; r++) {
           return { x: x, y: y - 1 };
         });
       } else {
+        // this rock is done,
         let lastTop = highestRock;
-        let blockThese = [];
         currentRock.forEach((coordinate) => {
           if (coordinate.y > highestRock) {
             highestRock = coordinate.y;
           }
-          blockThese.push({ x: coordinate.x, y: coordinate.y - lastTop });
           setBlockedCoord(coordinate);
         });
         let topDiff = highestRock - lastTop;
-        patternMap.set(pKey, {
-          heightDelta: topDiff,
-          blockThese: blockThese,
-          endIndex: inputIndex,
-        });
-        console.log(`R:${r},PatternSize:${patternMap.size}`);
+        let full = false;
         blockedCoordinates = blockedCoordinates.filter((val) => {
-          return highestRock - parseInt(val.split(",")[1]) < 69;
+          let h = highestRock - parseInt(val.split(",")[1]);
+          if (h >= 68) {
+            full = true;
+          }
+          return h < 69;
         });
+
+        let blocked = [];
+        blockedCoordinates.forEach((val) => {
+          let split = val.split(",");
+          let x = parseInt(split[0]);
+          let y = parseInt(split[1] - highestRock);
+          blocked.push({ x, y });
+        });
+
+        if (full) {
+          patternMap.set(pKey, {
+            heightDelta: topDiff,
+            blocked: blocked,
+            endIndex: inputIndex,
+          });
+        }
+
         break;
       }
     }
