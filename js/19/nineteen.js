@@ -183,5 +183,3 @@ for (const bluePrint of bluePrints) {
 console.log(results.map(a => a.geode).reduce((accum, val) => { return accum * val; }, 1));
 
 
-
-console.log(value)
