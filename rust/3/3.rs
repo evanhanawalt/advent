@@ -8,7 +8,7 @@ fn get_char_value(char: char) -> u32 {
 }
 
 fn read_input () -> Vec<String> {
-    let contents = std::fs::read_to_string("./input.txt").unwrap();
+    let contents = include_str!("./input.txt");
     let ret: Vec<String> = contents.lines().map(str::to_string).collect();
     return ret;
 }

@@ -27,7 +27,7 @@ impl Overlap for Pair {
     }
 }
 fn read_input () -> Vec<Pair> {
-    let contents = std::fs::read_to_string("./input.txt").unwrap();
+    let contents = include_str!("./input.txt");
     let mut ret: Vec<Pair> = Vec::new();
     for line in contents.lines() {
         let mut p:Vec<u32> = Vec::new();

@@ -6,7 +6,7 @@ struct Instruction {
 }
 fn read_input() -> (HashMap<u16, Vec<char>>, Vec<Instruction>) {
     let mut stacks: HashMap<u16,Vec<char>> = HashMap::new();
-    let contents = std::fs::read_to_string("./input.txt").unwrap();
+    let contents = include_str!("input.txt");
     let split:Vec<&str> = contents.split("\n\n").collect();
     
     let top = split.get(0).unwrap();

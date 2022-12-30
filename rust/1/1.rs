@@ -1,7 +1,5 @@
-
-use std::fs;
 fn get_inv() -> Vec<Vec<u32>> {
-    let contents = fs::read_to_string("./input.txt").unwrap();
+    let contents = include_str!("./input.txt");
     let mut inventories: Vec<Vec<u32>> = Vec::new();
     let mut current = 0;
     for line in contents.trim().lines() {
