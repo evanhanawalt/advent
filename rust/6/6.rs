@@ -10,17 +10,17 @@ fn part1() {
     let input = read_input();
     let mut last_chars: Vec<char> = Vec::new();
     let mut result = 0;
-    for (i,char) in input.chars().enumerate() {
+    for (i, char) in input.chars().enumerate() {
         if last_chars.len() < 3 {
             last_chars.push(char);
         } else {
-            let set:HashSet<char> = last_chars.iter().cloned().collect();
+            let set: HashSet<char> = last_chars.iter().cloned().collect();
 
             if set.contains(&char) || set.len() != 3 {
                 last_chars.remove(0);
                 last_chars.push(char);
-            } else  {
-                result = i +1;
+            } else {
+                result = i + 1;
                 break;
             }
         }
@@ -32,17 +32,17 @@ fn part2() {
     let input = read_input();
     let mut last_chars: Vec<char> = Vec::new();
     let mut result = 0;
-    for (i,char) in input.chars().enumerate() {
+    for (i, char) in input.chars().enumerate() {
         if last_chars.len() < 13 {
             last_chars.push(char);
         } else {
-            let set:HashSet<char> = last_chars.iter().cloned().collect();
+            let set: HashSet<char> = last_chars.iter().cloned().collect();
 
             if set.contains(&char) || set.len() != 13 {
                 last_chars.remove(0);
                 last_chars.push(char);
-            } else  {
-                result = i +1;
+            } else {
+                result = i + 1;
                 break;
             }
         }
