@@ -2,7 +2,10 @@
 name = "rust"
 version = "0.1.0"
 edition = "2021"
-
+[profile.dev]
+opt-level = 3
+[profile.release]
+debug = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -31,3 +34,6 @@ path = "7/7.rs"
 [[bin]]
 name = "7-2"
 path = "7/7-2.rs"
+[[bin]]
+name = "12"
+path = "12/12.rs"
