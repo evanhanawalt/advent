@@ -1,4 +1,4 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, rc::Rc, time::Instant};
 
 struct Directory {
     pub value: u64,
@@ -130,6 +130,13 @@ fn part2() {
 }
 
 fn main() {
+    let start = Instant::now();
+
     part1();
+    let p1 = start.elapsed();
+    let start2 = Instant::now();
     part2();
+    let p2 = start2.elapsed();
+
+    println!("Part1:{:?}, Part1:{:?}", p1, p2);
 }
