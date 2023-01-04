@@ -35,6 +35,18 @@ path = "7/7.rs"
 name = "7-2"
 path = "7/7-2.rs"
 [[bin]]
+name = "8"
+path = "8/8.rs"
+[[bin]]
+name = "9"
+path = "9/9.rs"
+[[bin]]
+name = "10"
+path = "10/10.rs"
+[[bin]]
+name = "11"
+path = "11/11.rs"
+[[bin]]
 name = "12"
 path = "12/12.rs"
 [[bin]]
@@ -43,3 +55,6 @@ path = "13/13.rs"
 [[bin]]
 name = "14"
 path = "14/14.rs"
+[[bin]]
+name = "15"
+path = "15/15.rs"
