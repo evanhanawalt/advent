@@ -9,6 +9,7 @@ debug = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+regex = "1.7.0"
 
 [[bin]]
 name = "1"
@@ -58,3 +59,6 @@ path = "14/14.rs"
 [[bin]]
 name = "15"
 path = "15/15.rs"
+[[bin]]
+name = "16"
+path = "16/16.rs"
