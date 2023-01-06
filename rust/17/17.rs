@@ -103,7 +103,7 @@ fn simulate(inputs: &Vec<char>, num_rocks: i64) -> i64 {
 
         // This has been seen before
         if pattern_map.contains_key(&pattern_key) {
-            if rock_index > 2000 && rock_index < 6000 {
+            if rock_index >= 2000 && rock_index < 6000 {
                 pattern_history.push(pattern_key.clone());
             } else if rock_index == 6001 {
                 let best_pattern = find_longest_pattern(&pattern_history);
@@ -113,7 +113,7 @@ fn simulate(inputs: &Vec<char>, num_rocks: i64) -> i64 {
                     .map(|key| pattern_map.get(key).unwrap().height_delta)
                     .sum();
 
-                let total_h_added = num_to_simulate * pattern_h_delta;
+                let total_h_added = num_to_simulate * pattern_h_delta - 1;
                 let total_rocks_dropped = num_to_simulate * (best_pattern.len() as i64);
                 rock_index += total_rocks_dropped;
                 highest_rock += total_h_added;
@@ -171,15 +171,11 @@ fn simulate(inputs: &Vec<char>, num_rocks: i64) -> i64 {
                         blocked_coordinates.push((x, y));
                     }
                     let height_delta = highest_rock - last_top;
-                    let mut full = false;
                     blocked_coordinates = blocked_coordinates
                         .iter()
                         .filter(|(_x, y)| {
                             let h = highest_rock - *y;
-                            if h >= 68 {
-                                full = true;
-                            }
-                            return h < 69;
+                            return h < 101;
                         })
                         .cloned()
                         .collect();
@@ -189,7 +185,7 @@ fn simulate(inputs: &Vec<char>, num_rocks: i64) -> i64 {
                         .cloned()
                         .map(|(x, y)| (x, y - highest_rock))
                         .collect();
-                    if full {
+                    if rock_index > 200 {
                         pattern_map.insert(
                             pattern_key,
                             PatternResults {
@@ -204,7 +200,7 @@ fn simulate(inputs: &Vec<char>, num_rocks: i64) -> i64 {
             }
         }
     }
-    return highest_rock;
+    return highest_rock + 1;
 }
 
 fn part1() {
