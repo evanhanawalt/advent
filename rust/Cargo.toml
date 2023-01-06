@@ -71,3 +71,12 @@ path = "18/18.rs"
 [[bin]]
 name = "19"
 path = "19/19.rs"
+[[bin]]
+name = "20"
+path = "20/20.rs"
+[[bin]]
+name = "21"
+path = "21/21.rs"
+[[bin]]
+name = "22"
+path = "22/22.rs"
