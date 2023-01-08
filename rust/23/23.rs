@@ -140,4 +140,6 @@ fn part2() {
             positions = next;
         }
     }
+
+    println!("Part2: {i}");
 }
